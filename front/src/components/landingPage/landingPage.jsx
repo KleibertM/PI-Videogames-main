@@ -1,11 +1,19 @@
-// import style from './landingPage.module.css';
+import Footer from '../Footer/Footer';
+import SearchBar from '../searchBar/searchBar';
+import style from './landingPage.module.css';
 
-const landingPage = () => {
+import {NavLink} from 'react-router-dom'
+
+const LandingPage = () => {
     return (
-        <div>
-            <h1>soy el landingPage</h1>
+        <div className={style.container}>
+            <div className={style.btn_home}>
+            <NavLink to='/home'>
+                <button>Ingresar</button>
+            </NavLink>
         </div>
+        </div >
     )
 };
 
-export default landingPage;
+export default LandingPage;

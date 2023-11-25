@@ -1,3 +1,34 @@
-.title {
-    color: whitesmoke;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /* Theme Dark */
+    --color-title-N-: #F94C10;
+    --color-icon-N-: #F8DE22;
+    --color-bg-N-: #900C3F;
+    --color-shadow-N-: #C70039;
+    /* Theme Light */
+    --color-title-L-: #1A120B;
+    --color-icon-L-: #D5CEA3;
+    --color-bg-L-: #E5E5CB;
+    --color-shadow-L-: #3C2A21;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background: center url(../../assets/img/bgCyber.jpg);
+
+    .btn_home {
+        background-color: var(--color-bg-N-);
+        width: 10rem;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

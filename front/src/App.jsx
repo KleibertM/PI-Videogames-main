@@ -1,15 +1,12 @@
 
 import './App.css';
-import landingPage from './components/landingPage/landingPage';
-import homePage from './components/homePage/homePage';
+import LandingPage from './components/landingPage/landingPage';
 
 
 const App = () => {
   return (
     <div>
-      <h1>hola</h1>
-      <home />
-      <landingPage />
+      <LandingPage />
     </div>
   )
 };

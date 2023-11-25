@@ -5,8 +5,9 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('videogame', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false
     },
     name: {
@@ -14,33 +15,36 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     description: {
-      type: DataTypes.TEXT,
-      allowNull: false
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     image: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.JSONB,
+      allowNull: true,
     },
     plataform: {
       type: DataTypes.ENUM('PC', 'PlayStation 5', 'PlayStation 4', 'Xbox One', 'Xbox Series S/X', 'Nintendo Switch', 'iOS', 'Android', 'Nintendo 3DS', 'Nintendo DS', 'Nintendo DSi', 'macOS', 'Linux', 'Xbox 360', 'Xbox', 'PlayStation 3', 'PlayStation 2', 'PlayStation', 'PS Vita', 'PSP'),
-      allowNull: false
     },
-    genres: {
-      type: DataTypes.INTEGER,
-      allowNull: false
+    gender:{
+      type: DataTypes.JSONB,
+      allowNull: true,
     },
     date: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
     },
-    raiting: {
+    rating: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         min: 1,
         max: 5
       }
-    }
+    },
+    created: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
   },
   { timestamps: false });
 };

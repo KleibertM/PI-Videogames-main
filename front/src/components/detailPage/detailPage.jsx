@@ -1,9 +1,9 @@
-const detailPage = ()=> {
+const DetailPage = ()=> {
     return(
         <div>
-            
+            <h1>Soy el Datail</h1>
         </div>
     )
 }
 
-export default detailPage;
+export default DetailPage;
