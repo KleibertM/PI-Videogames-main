@@ -1,5 +1,5 @@
-const { detailGame, getGameByName, getAllGames, createGameDB, getGameGenres } = require("../controllers/gameControllers");
-const {videogame, genres} = require('../db')
+const { detailGame, getGameByName, getAllGames, createGameDB, getGameGenres, getByPlatforms } = require("../controllers/gameControllers");
+const {videogame, genres, platforms} = require('../db')
 
 const getGames = async (req, res) => {
     const { name } = req.query;
@@ -30,10 +30,10 @@ const getDetailById = async (req, res) => {
 }
 
 const createGame = async (req, res) => {
-    const { name, date, description, rating, plataform, gender, stores, image,UserId } = req.body;
+    const { name, date, description, rating, plataforms, gender, stores, image,UserId } = req.body;
 
     try {
-        const response = await createGameDB(name, date, description, rating, plataform, gender, stores, image, UserId);
+        const response = await createGameDB(name, date, description, rating, plataforms, gender, stores, image, UserId);
         res.status(200).json(response);
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -53,9 +53,25 @@ const getByGenres = async (req, res) => {
     }
 }
 
+const getByPlatafomsHandlers =async (req, res)=> {
+    try {
+        const existPlatforms = await platforms.findAll({ attributes: ['name'] });
+
+        if (!existPlatforms.length) {
+            const dbPlataforms = await getByPlatforms();
+            await platforms.bulkCreate(dbPlataforms);
+        }
+        const response = await platforms.findAll({ attributes: ['name'] });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
 module.exports = {
     getGames,
     getDetailById,
     createGame,
-    getByGenres
+    getByGenres,
+    getByPlatafomsHandlers
 }

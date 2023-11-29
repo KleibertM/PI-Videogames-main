@@ -22,10 +22,13 @@ module.exports = (sequelize) => {
       type: DataTypes.JSONB,
       allowNull: true,
     },
-    plataform: {
-      type: DataTypes.ENUM('PC', 'PlayStation 5', 'PlayStation 4', 'Xbox One', 'Xbox Series S/X', 'Nintendo Switch', 'iOS', 'Android', 'Nintendo 3DS', 'Nintendo DS', 'Nintendo DSi', 'macOS', 'Linux', 'Xbox 360', 'Xbox', 'PlayStation 3', 'PlayStation 2', 'PlayStation', 'PS Vita', 'PSP'),
+    plataforms: {
+      // type: DataTypes.ENUM('PC', 'PlayStation 5', 'PlayStation 4', 'Xbox One', 'Xbox Series S/X', 'Nintendo Switch', 'iOS', 'Android', 'Nintendo 3DS', 'Nintendo DS', 'Nintendo DSi', 'macOS', 'Linux', 'Xbox 360', 'Xbox', 'PlayStation 3', 'PlayStation 2', 'PlayStation', 'PS Vita', 'PSP'),
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
     },
-    gender:{
+    gender: {
       type: DataTypes.JSONB,
       allowNull: true,
     },
@@ -46,5 +49,5 @@ module.exports = (sequelize) => {
       defaultValue: true
     },
   },
-  { timestamps: false });
+    { timestamps: false });
 };

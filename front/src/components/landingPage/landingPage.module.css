@@ -23,12 +23,23 @@
     height: 100vh;
     background: center url(../../assets/img/bgCyber.jpg);
 
-    .btn_home {
-        background-color: var(--color-bg-N-);
+    .btn {
+        
         width: 10rem;
         height: 3rem;
         display: flex;
         justify-content: center;
         align-items: center;
+        >button{
+
+            background-color: var(--color-bg-N-);
+            
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            border: none;
+        }
     }
 }
