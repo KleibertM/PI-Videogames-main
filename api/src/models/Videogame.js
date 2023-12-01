@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('videogame', {
+  sequelize.define('Videogame', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -15,29 +15,24 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     image: {
-      type: DataTypes.JSONB,
-      allowNull: true,
-    },
-    plataforms: {
-      // type: DataTypes.ENUM('PC', 'PlayStation 5', 'PlayStation 4', 'Xbox One', 'Xbox Series S/X', 'Nintendo Switch', 'iOS', 'Android', 'Nintendo 3DS', 'Nintendo DS', 'Nintendo DSi', 'macOS', 'Linux', 'Xbox 360', 'Xbox', 'PlayStation 3', 'PlayStation 2', 'PlayStation', 'PS Vita', 'PSP'),
       type: DataTypes.STRING,
-      unique: true,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 'https://assets-prd.ignimgs.com/2022/09/23/top25modernpcgames-blogroll-1663951042311.jpg'
     },
-    gender: {
-      type: DataTypes.JSONB,
-      allowNull: true,
-    },
-    date: {
-      type: DataTypes.DATE,
+    platforms: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
+    released: {
+      type: DataTypes.DATEONLY,
+      allowNull: true,
+    },
     rating: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false,
       validate: {
         min: 1,

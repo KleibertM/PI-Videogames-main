@@ -1,6 +1,6 @@
 import SearchBar from "../searchBar/searchBar";
 import NavBar from "../NavBar/NavBar";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { clearDetail, getAllVideoGames, paginateGames } from "../../redux/Actions/actions";
 import { useEffect } from "react";
 import Cards from '../Cards/Cards'
@@ -12,15 +12,14 @@ const HomePage = ()=>{
         dispatch(paginateGames(e.target.name))
     }
 
-    const allGames = useSelector((state)=> state.allGames)
-
+    
     useEffect(()=>{
         dispatch(getAllVideoGames())
         return (()=>{
             clearDetail()
         })
     }, [dispatch])
-
+    
 
     return(
         <div>

@@ -1,4 +1,4 @@
-import { CLEAR_DETAILGAME, FILTER_LISTGENRES, FILTER_LISTPLATFORMS, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES, GET_PLATAFOMS, ORDER_LIST, PAGINATE, RATING_ORDER } from "../Actions/actions.types";
+import { ADD_NEW_GAME, CLEAR_DETAILGAME, FILTER_LISTGENRES, FILTER_LISTPLATFORMS, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES, GET_PLATAFOMS, ORDER_LIST, PAGINATE, RATING_ORDER } from "../Actions/actions.types";
 
 const initialState = {
     videoGames: [],
@@ -6,7 +6,6 @@ const initialState = {
     allVideoGames: [],
     detail: [],
     genres: [],
-    platforms: [],
     currentPage: 0
 }
 
@@ -16,7 +15,7 @@ const reducer = (state = initialState, action) => {
         case GET_ALLVIDEOGAMES:
             return {
                 ...state,
-                videoGames: [...action.payload].splice(0, PAGE_GAME),
+                videoGames: [...action.payload].slice(0, PAGE_GAME),
                 pageVideoGames: action.payload,
                 allVideoGames: action.payload,
             };
@@ -39,11 +38,6 @@ const reducer = (state = initialState, action) => {
                 genres: action.payload
             };
 
-        case GET_PLATAFOMS:
-            return {
-                ...state,
-                platforms: action.payload
-            }
 
         case GET_GAME_BYNAME:
 
@@ -54,30 +48,30 @@ const reducer = (state = initialState, action) => {
 
         // Filter genre
         case FILTER_LISTGENRES:
-            const filteredGames = state.allVideoGames.filter((game) => {
-                return game.genres.includes(action.payload);
-            });
-            return {
-                ...state,
-                pageVideoGames: [...filteredGames],
-                videoGames: filteredGames.splice(0, PAGE_GAME),
-            };
-
-        case FILTER_LISTPLATFORMS:
-            const filterByPlataform = state.allVideoGames.filter((platform) => {
-                return platform.platforms.includes(action.payload);
+            const filterGenres = state.allVideoGames.filter( (genre) => {
+                return genre.genres.includes(action.payload)
             })
             return {
                 ...state,
-                pageVideoGames: [...filterByPlataform],
-                videoGames: filterByPlataform.splice(0, PAGE_GAME),
-            }
+                pageVideoGames: [...filterGenres],
+                videoGames: filterGenres.slice(0, PAGE_GAME),
+            };
+
+        // case FILTER_LISTPLATFORMS:
+        //     const filterByPlataform = state.allVideoGames.filter((platform) => {
+        //         return platform.platforms.includes(action.payload);
+        //     })
+        //     return {
+        //         ...state,
+        //         pageVideoGames: [...filterByPlataform],
+        //         videoGames: filterByPlataform.slice(0, PAGE_GAME),
+        //     }
 
         case GET_CREATED:
             const createdGames = state.allVideoGames.filter((game) => game.created === true);
             return {
                 ...state,
-                videoGames: createdGames.splice(0, PAGE_GAME),
+                videoGames: createdGames.slice(0, PAGE_GAME),
                 pageVideoGames: createdGames
             };
 
@@ -92,7 +86,7 @@ const reducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                videoGames: orderedList.splice(0, PAGE_GAME),
+                videoGames: orderedList.slice(0, PAGE_GAME),
                 pageVideoGames: orderedList
             }
         case RATING_ORDER:
@@ -112,7 +106,7 @@ const reducer = (state = initialState, action) => {
             } else {
                 return {
                     ...state,
-                    videoGames: sortedRating.splice(0, PAGE_GAME),
+                    videoGames: sortedRating.slice(0, PAGE_GAME),
                     pageVideoGames: sortedRating
                 };
             };
@@ -130,7 +124,7 @@ const reducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                videoGames: [...state.pageVideoGames].splice(firstIndex, PAGE_GAME),
+                videoGames: [...state.pageVideoGames].slice(firstIndex, PAGE_GAME),
                 currentPage: action.payload === "next" ? nextPage : prevPage,
             };
 

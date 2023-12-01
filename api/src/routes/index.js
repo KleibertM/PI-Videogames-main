@@ -4,7 +4,7 @@ const gameRouter = require('./gameRouter');
 
 const router = Router();
 
-router.use('/videogames', gameRouter);
+router.use('/', gameRouter);
 router.use('/user' , userRouter);
 
 

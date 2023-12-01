@@ -1,13 +1,11 @@
 import axios from "axios";
-import { CLEAR_DETAILGAME,    FILTER_LISTGENRES, FILTER_LISTPLATFORMS, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES, GET_PLATAFOMS, ORDER_LIST, PAGINATE, RATING_ORDER } from "./actions.types";
-const URL = "http://localhost:3001/videogames";
-const ULRp = 'https://api.rawg.io/api/platforms?key=4bcb0add5777425590aac9b4f3eff235';
+import { CLEAR_DETAILGAME, FILTER_LISTGENRES,  GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES,ORDER_LIST, PAGINATE, RATING_ORDER } from "./actions.types";
+const URL = "http://localhost:3001";
 
 export const getAllVideoGames = () => {
     try {
         return async (dispatch) => {
-            const { data } = await axios.get(`${URL}`);
-            console.log(data);
+            const { data } = await axios.get(`${URL}/videogames`);
             return dispatch({
                 type: GET_ALLVIDEOGAMES,
                 payload: data
@@ -21,7 +19,7 @@ export const getAllVideoGames = () => {
 export const getDetailVideoGame = (id) => {
     try {
         return async (dispatch) => {
-            const { data } = await axios.get(`${URL}/${id}`);
+            const { data } = await axios.get(`${URL}/videogames/${id}`);
             return dispatch({
                 type: GET_DETAILGAME,
                 payload: data
@@ -39,7 +37,7 @@ export const clearDetail = () => {
                 type: CLEAR_DETAILGAME
             });
         } catch (error) {
-            alert(error.response.data.error);
+            throw new Error(error.response.data.error);
         };
     };
 };
@@ -48,7 +46,7 @@ export const getAllGenres = () => {
     try {
         return async (dispatch) => {
             const { data } = await axios.get(`${URL}/genres`);
-            
+            console.log(data + ' data genres');
             return dispatch({
                 type: GET_GENRES,
                 payload: data
@@ -59,25 +57,11 @@ export const getAllGenres = () => {
     }
 };
 
-export const getAllPlatforms = () => {
-    try {
-        return async (dispatch) => {
-            const {data} = await axios.get(`${ULRp}`)
-
-            return dispatch({
-                type: GET_PLATAFOMS,
-                payload: data
-            })
-        }
-    } catch (error) {
-        throw Error(error.message);
-    }
-}
 
 export const getGameByName = (name) => {
     return async (dispatch) => {
         try {
-            const { data } = await axios.get(`${URL}?name=${name}`);
+            const { data } = await axios.get(`${URL}/videogames?name=${name}`);
             if (data.length === 0) {
                 throw new Error('Not Found');
             }
@@ -86,10 +70,11 @@ export const getGameByName = (name) => {
                 payload: data
             });
         } catch (error) {
-            throw Error('This game does not exist');
+            throw new Error('This game does not exist');
         }
     };
 };
+
 
 export const filterVideoGames = (genres) => {
     return async (dispatch) => {
@@ -99,23 +84,12 @@ export const filterVideoGames = (genres) => {
                 payload: genres
             });
         } catch (error) {
-            alert(error.response.data.error);
+            console.error("Error:", error); 
+            throw new Error("Error desconocido");
         };
     };
 };
 
-export const filterByPlataforms = (platforms) => {
-    return async (dispatch) => {
-        try {
-            return dispatch({
-                type: FILTER_LISTPLATFORMS,
-                payload: platforms
-            })
-        } catch (error) {
-            alert(error.response.data.error);
-        }
-    }
-}
 
 export const getCreated = () => {
     return async (dispatch) => {
@@ -124,7 +98,7 @@ export const getCreated = () => {
                 type: GET_CREATED
             });
         } catch (error) {
-            alert(error.response.data.error);
+            throw new Error(error.response.data.error);
         };
     };
 };
@@ -138,7 +112,7 @@ export const alphabeticalOrder = (order) => {
                 payload: order
             });
         } catch (error) {
-            alert(error.response.data.error);
+            throw new Error(error.response.data.error);
         };
     };
 };
@@ -151,7 +125,7 @@ export const ratingOrder = (order) => {
                 payload: order
             });
         } catch (error) {
-            alert(error.response.data.error);
+            throw new Error(error.response.data.error);
         };
     };
 };
@@ -164,7 +138,7 @@ export const paginateGames = (order) => {
                 payload: order,
             });
         } catch (error) {
-            alert(error.response.data.error);
+            throw new Error(error.response.data.error);
         };
     };
 };

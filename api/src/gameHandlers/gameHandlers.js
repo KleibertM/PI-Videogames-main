@@ -1,14 +1,14 @@
-const { detailGame, getGameByName, getAllGames, createGameDB, getGameGenres, getByPlatforms } = require("../controllers/gameControllers");
-const {videogame, genres, platforms} = require('../db')
+const { detailGameControllrs, getGameByNameControllrs, getAllGamesControllrs, createGameDBControllrs, getGameGenresControllrs, findGameByNameControllrs } = require("../controllers/gameControllers");
+const { Videogame, Genres } = require('../db')
 
-const getGames = async (req, res) => {
+const getGamesHandlers = async (req, res) => {
     const { name } = req.query;
     try {
         if (name) {
-            const gameByName = await getGameByName(name)
+            const gameByName = await getGameByNameControllrs(name)
             res.status(200).json(gameByName);
         } else {
-            const response = await getAllGames()
+            const response = await getAllGamesControllrs()
             res.status(200).json(response);
         }
     } catch (error) {
@@ -16,62 +16,51 @@ const getGames = async (req, res) => {
     }
 }
 
-const getDetailById = async (req, res) => {
+const getDetailByIdHandlers = async (req, res) => {
     const { id } = req.params;
 
     const source = isNaN(id) ? "bd" : "api";
 
     try {
-        const response = await detailGame(id, source);
+        const response = await detailGameControllrs(id, source);
         res.status(200).json(response);
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
 
-const createGame = async (req, res) => {
-    const { name, date, description, rating, plataforms, gender, stores, image,UserId } = req.body;
-
+const createGameHandlers = async (req, res) => {
     try {
-        const response = await createGameDB(name, date, description, rating, plataforms, gender, stores, image, UserId);
-        res.status(200).json(response);
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-    }
-}
-const getByGenres = async (req, res) => {
-    try {
-        const existGenres = await genres.findAll()
-        if (!existGenres.length) {
-            const dbData = await getGameGenres()
-            await genres.bulkCreate(dbData);
+        const { name, platforms, genres, image, description, released, rating } = req.body;
+        const existingGame = await findGameByNameControllrs(name);
+        if (existingGame) {
+            throw new Error('Ya existe un juego con el mismo nombre.');
         }
-        const response = await genres.findAll()
+        const newVideoGame = await createGameDBControllrs(name, platforms, genres, image, description, released, rating);
+        res.status(200).send(newVideoGame);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+const getByGenresHandlers = async (req, res) => {
+    try {
+        const existGenres = await Genres.findAll()
+        if (!existGenres.length) {
+            const dbData = await getGameGenresControllrs()
+            await Genres.bulkCreate(dbData);
+        }
+        const response = await Genres.findAll()
         res.status(200).json(response)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
 
-const getByPlatafomsHandlers =async (req, res)=> {
-    try {
-        const existPlatforms = await platforms.findAll({ attributes: ['name'] });
-
-        if (!existPlatforms.length) {
-            const dbPlataforms = await getByPlatforms();
-            await platforms.bulkCreate(dbPlataforms);
-        }
-        const response = await platforms.findAll({ attributes: ['name'] });
-        res.status(200).json(response);
-    } catch (error) {
-        res.status(400).json({ error: error.message })
-    }
-}
 
 module.exports = {
-    getGames,
-    getDetailById,
-    createGame,
-    getByGenres,
-    getByPlatafomsHandlers
+    getGamesHandlers,
+    getDetailByIdHandlers,
+    createGameHandlers,
+    getByGenresHandlers,
 }

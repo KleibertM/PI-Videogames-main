@@ -1,43 +1,41 @@
 import { useEffect, useState } from "react";
-import { getAllGenres, getAllPlatforms } from "../../redux/Actions/actions";
+import { getAllGenres } from "../../redux/Actions/actions";
 import { useSelector, useDispatch } from "react-redux";
 import Validation from "./validationForm";
 import axios from "axios";
+import style from './form.module.css'
 
 const FormPage = () => {
     const genres = useSelector((state) => state.genres);
-    const platforms = useSelector((state) => state.platforms)
     const dispatch = useDispatch()
-    const URL = 'http://localhost:3001/videogames';
-
-    // useEffect(() => {
-    //     dispatch(getAllGenres())
-    // }, []);
+    const URL = 'http://localhost:3001';
 
     useEffect(() => {
         dispatch(
-            getAllGenres(),
+            getAllGenres()
         )
     }, []);
 
     const [form, setForm] = useState({
         name: "",
         description: "",
-        platforms: [],
+        platforms: "",
         genres: [],
         image: "",
         released: "",
         rating: "",
     });
+
     const [errors, setErrors] = useState({
         name: "",
         description: "",
-        platforms: [],
+        platforms: "",
         genres: [],
         image: "",
         released: "",
         rating: "",
     });
+
 
     const changeHandler = (event) => {
         const property = event.target.name;
@@ -50,22 +48,14 @@ const FormPage = () => {
                     ...form,
                     genres: [...form.genres, genreName]
                 });
-            }
-        } else if (property === "platforms") {
-            const platformName = event.target.value;
-            if (!form.platforms.includes(platformName)) {
-                setForm({
-                    ...form,
-                    platforms: [...form.platforms, platformName]
-                });
-            }
+            };
+            return;
         } else {
             setForm({
                 ...form,
                 [property]: value
             });
-        }
-
+        };
         setErrors(
             Validation({
                 ...form,
@@ -74,6 +64,8 @@ const FormPage = () => {
         );
     };
 
+    console.log(form.genres);
+    console.log(form.platforms);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -82,7 +74,7 @@ const FormPage = () => {
         const hasErrors = Object.values(validationForm).some((error) => !!error);
 
         if (!hasErrors) {
-            axios.post(`${URL}`, form)
+            axios.post('http://localhost:3001/videogames', form)
                 .then((response) => alert('Successfully created'))
                 .catch((error) => alert("Error creating video game"));
         } else {
@@ -91,99 +83,117 @@ const FormPage = () => {
     };
 
     return (
-        <div>
+        <div className={style.container}>
             <h1>Formulario de Creación de Videojuego</h1>
             <form encType="multipart/form-data" onSubmit={handleSubmit}>
-                <label>Name:
-                    <input
-                        type="text"
-                        value={form.name}
-                        name="name"
-                        onChange={changeHandler} required
-                        style={{ borderColor: errors.name ? 'red' : 'initial' }}
-                    >
-                    </input>
-                    {errors.name && <p>{errors.name}</p>}
-                </label>
+                        <hr />
+                        <div>
+                            <label>Name:
+                                <input
+                                    value={form.name}
+                                    type="text"
+                                    name="name"
+                                    autoComplete="name"
+                                    onChange={changeHandler}
+                                    style={{ borderColor: errors.name ? 'red' : 'initial' }}>
+                                </input>
+                                {errors.name && <p>{errors.name}</p>}
+                            </label>
+                        </div>
 
-                <label>Imagen:
-                    <input
-                        type="file"
-                        value={form.image}
-                        name="image"
-                        onChange={changeHandler} required
-                    ></input>
-                    {errors.image && <p>{errors.image}</p>}
-                </label>
+                        <div>
+                            <label>Platforms:
+                                <input
+                                    value={form.platforms}
+                                    type="text"
+                                    name="platforms"
+                                    onChange={changeHandler}
+                                    style={{
+                                        borderColor: errors.platforms
+                                            ? 'red'
+                                            : 'initial'
+                                    }}>
+                                </input>
+                                {errors.platforms && <p>{errors.platforms}</p>}
+                            </label>
+                        </div>
 
-                <label>Descripción:
-                    <textarea
-                        value={form.description}
-                        onChange={changeHandler} rows="4"
-                        name="description"
-                        required
-                    ></textarea>
-                    {errors.description && <p>{errors.description}</p>}
-                </label>
+                        <div>
+                            <label>Genres:
+                                <select
+                                    value={form.genres}
+                                    name="genres"
+                                    // multiple
+                                    onChange={changeHandler}>
+                                    <option>⬇</option>
+                                    {genres.map((genre) => (
+                                        <option
+                                            // type="input"
+                                            key={genre.id}
+                                            value={genre.name}>
+                                            {genre.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.genres && <p>{errors.genres}</p>}
+                            </label>
+                        </div>
 
-                <label>Platforms:
-                    {platforms.map((platform) => (
-                        <label key={platform.id}>
-                            <input
-                                type="checkbox"
-                                name="platforms"
-                                value={platform.name}
-                                checked={form.platforms.includes(platform.name)}
-                                onChange={changeHandler}
-                            />
-                            {platform.name}
-                        </label>
-                    ))}
-                </label>
+                        <div>
+                            <label>Rating:
+                                <input
+                                    value={form.rating}
+                                    type="number"
+                                    name="rating"
+                                    step="0.1"
+                                    onChange={changeHandler}>
+                                </input>
+                                {errors.rating && <p>{errors.rating}</p>}
+                            </label>
+                        </div>
 
-                <label>Fecha de Lanzamiento:
-                    <input type="date"
-                        value={form.released}
-                        onChange={changeHandler}
-                        name="released"
-                        required
-                    ></input>
-                    {errors.released && <p>{errors.released}</p>}
-                </label>
+                        <div>
+                            <label>Image:
+                                <input
+                                    value={form.image}
+                                    type="text"
+                                    name="image"
+                                    placeholder="Enter Image URL"
+                                    onChange={changeHandler}
+                                />
+                                {errors.image && <p>{errors.image}</p>}
+                            </label>
+                        </div>
 
-                <label>Rating:
-                    <input type="number"
-                        value={form.rating}
-                        name="rating"
-                        onChange={changeHandler}
-                        min="0" max="5" step="0.1" required >
+                        <hr />
 
-                    </input>
-                    {errors.rating && <p>{errors.rating}</p>}
-                </label>
+                        <div>
+                            <label>released:
+                                <input
+                                    value={form.released}
+                                    type="date"
+                                    name="released"
+                                    autoComplete="off"
+                                    onChange={changeHandler}>
+                                </input>
+                                {errors.released && <p>{errors.released}</p>}
+                            </label>
+                        </div>
 
-                <label>Géneros:
-                    {genres.map((genre) => (
-                        <label key={genre.id}>
-                            <input
-                                type="checkbox"
-                                name="genres"
-                                value={genre.name}
-                                checked={form.genres.includes(genre.name)}
-                                onChange={changeHandler}
-                            />
-                            {genre.name}
-                        </label>
-                    ))}
-                    {errors.genres && <p>{errors.genres}</p>}
-                </label>
+                        <div>
+                            <label>Description:
+                                <textarea
+                                    value={form.description}
+                                    name="description"
+                                    rows="4"
+                                    onChange={changeHandler}>
+                                </textarea>
+                                {errors.description && <p>{errors.description}</p>}
+                            </label>
+                        </div>
 
-                <button type="submit">
-                    Crear Videojuego
-                </button>
-            </form>
-            {/* 
-            {errors && <div style={{ color: 'red', fontWeight: 'bold' }}>{errors}</div>} */}
+                        <button className={style.submit} type="submit">Register</button>
+                    </form>
         </div>
     )
 }

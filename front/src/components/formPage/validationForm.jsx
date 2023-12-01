@@ -24,7 +24,7 @@ const Validation = (input) => {
         errors.image = "Upload an image";
     }
     if (!input.released) {
-        errors.released = "Enter a release date";
+        errors.released = "Enter a release released";
     }
     if (!input.rating) {
         errors.rating = "Enter a rating";

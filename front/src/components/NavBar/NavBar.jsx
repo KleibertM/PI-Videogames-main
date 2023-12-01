@@ -19,14 +19,14 @@ const NavBar = () => {
         dispatch(getAllGenres())
     }, []);
 
-    const handleFilter = (event) => {
-        dispatch(filterVideoGames(event.target.value));
-    };
-
+    
     const handleCreatedButton = () => {
         dispatch(getCreated());
     };
     
+    const handleFilter = (event) => {
+        dispatch(filterVideoGames(event.target.value));
+    };
 
     const handleAllGames = () => {
         dispatch(getAllVideoGames());
@@ -41,63 +41,60 @@ const NavBar = () => {
     };
 
     return (
-        <div className={style.navContainer}>
+        
+        <div className={style.container}>
             <div className={style.navBar}>
-                <Link to="/home" className={style.videoHome}>
-                    <button>Home</button>
-                </Link>
-                <Link to="/form">
-                    <button>Form</button>
-                </Link>
-                <h4>Filtros</h4>
-                <div>
+                <h4 className={style.titleNav} >Filtros</h4>
+                <div className={style.btnFilter} >
                     <button
+                        className={style.btnFilter}
                         value='created'
                         onClick={handleCreatedButton}>Created
                     </button>
                 </div>
 
-                <div >
+                <div className={style.btnFilter}>
                     <button
-                        className={style.allGames}
+                        className={style.btnFilter}
                         value="AllGames"
                         onClick={handleAllGames}>All Games
                     </button>
                 </div>
 
-                <div>
-                    <select
+                <div className={style.btnFilter}>
+                    <select className={style.selectFilter}
                         name="rating"
                         placeholder="Rating"
                         onChange={ratingHandler}>
-                        <option value=''>Sort by rating</option>
-                        <option value='Falling'>5➡0</option>
-                        <option value='Upward'>0➡5</option>
+                        <option disabled>Sort by rating</option>
+                        <option value='Falling'>Better Rating</option>
+                        <option value='Upward'>Down Rating</option>
                     </select>
                 </div>
 
-                <div>
-                    <select
+                <div className={style.btnFilter}>
+                    <select className={style.selectFilter}
                         name="alphabetical"
                         placeholder="Alphabetical"
                         onChange={handleSort}>
-                        <option value=''>Sort by name</option>
+                        <option disabled>Sort by name</option>
                         <option value='A'>Ascendt</option>
                         <option value='D'>Desendent</option>
                     </select>
                 </div>
 
-                <div>
+                <div className={style.btnFilter}>
                     <select
-                        className={style.genres}
-                        name="select2"
+                        className={style.selectFilter}
+                        name="genres"
                         placeholder="Gender"
-                        onChange={handleFilter}>
-                        <option>Genre selection</option>
+                        onChange={handleFilter}
+                    >
+                        <option >Genre selection</option>
                         {genres.map((genre) => (
-                            <option
-                                key={genre.id}
-                                value={genre.name}>
+                            <option 
+                            key={genre.id} 
+                            value={genre.name}>
                                 {genre.name}
                             </option>
                         ))}

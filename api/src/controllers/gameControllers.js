@@ -1,23 +1,22 @@
 const axios = require('axios');
 const URL = 'https://api.rawg.io/api/games';
 const URLg = 'https://api.rawg.io/api/genres';
-const ULRp = 'https://api.rawg.io/api/platforms?key=4bcb0add5777425590aac9b4f3eff235';
-const API_KEY = '4bcb0add5777425590aac9b4f3eff235';
-const { videogame, genres } = require('../db')
+const {API_KEY} = process.env
+const { Videogame, Genres} = require('../db')
 const { Op } = require('sequelize');
 const cleanArrayGenres = require('../utils/cleanGenres');
 
 const removeTags = require('../utils/removeTags')
 
-const cleanGames = (array) => {
+const cleanGamesControllrs = (array) => {
     return array.map((game) => {
         return {
             id: game.id,
             name: game.name,
-            date: game.released,
+            released: game.released,
             description: game.description,
             rating: game.rating,
-            plataforms: game.platforms,
+            platforms: game.platforms,
             gender: game.genres,
             stores: game.stores,
             image: game.background_image || game.image,
@@ -27,58 +26,82 @@ const cleanGames = (array) => {
     });
 };
 
-const getAllGames = async () => {
-    const gameResults = [];
-    for (let i = 1; i <= 5; i++) {
-        
-        const gameApi = (await axios(`${URL}?key=${API_KEY}&page=${i}`)).data.results;
-    
-        if (!gameApi) {
-            throw Error('Error en gameApi')
-        }
-        const infoApi = cleanGames(gameApi);
+const getAllGamesControllrs = async () => {
+    try {
+        const gameResults = [];
+        for (let i = 1; i <= 5; i++) {
+            const gameApi = (await axios(`${URL}?key=${API_KEY}&page=${i}`)).data.results;
 
-        gameResults.push(...infoApi)
+            if (!gameApi || !gameApi.length) {
+                throw new Error(`No se recibieron datos válidos de la API en la página ${i}`);
+            }
+
+            const infoApi = cleanGamesControllrs(gameApi);
+            gameResults.push(...infoApi);
+        }
+
+        const gameDB = await Videogame.findAll({
+            include: [
+                {
+                    model: Genres,
+                    attributes: ['name'],
+                },
+            ],
+        });
+
+        const cleanDB = cleanArrayGenres(gameDB);
+        return [...cleanDB, ...gameResults];
+    } catch (error) {
+        throw Error('Error en getAllGames:', error);
+        ;
     }
-    const gameDB = await videogame.findAll({
-        include: {
-            model: genres,
-            attributes: ['name']
+};
+
+
+const getGameByNameControllrs = async (name) => {
+    try {
+        const response = (await axios.get(`${URL}?key=${API_KEY}&page_size=100`)).data.results;
+
+        if (response && response.length > 0) {
+            const gameFilter = response.filter((game) => game.name.toLowerCase() === name.toLowerCase());
+            const datosFilter = cleanGamesControllrs(gameFilter);
+            return [...datosFilter];
+        } else {
+            const gameDB = await Videogame.findAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${name}%`
+                            }
+                        },
+                        {
+                            description: {
+                                [Op.like]: `%${name}%`
+                            }
+                        }
+                    ]
+                },
+                limit: 15
+            });
+            
+            return gameDB.map((game) => ({ ...game.toJSON(), fromDB: true }));
         }
-    });
-
-    const cleanDB = cleanGames(gameDB)
-    return [...cleanDB, ...gameResults]
-
-}
-
-const getGameByName = async (name) => {
-
-    const response = (await axios.get(`${URL}?key=${API_KEY}&page_size=100`)).data.results;
+    } catch (error) {
+        throw new Error('Error searching for games');
+    }
+};
 
 
-    const gameFilter = response.filter((game) => game.name.toLowerCase() === name.toLowerCase());
+const detailGameControllrs = async (id, source) => {
 
-    const gameDB = await videogame.findAll({
-        where: {
-            name: {
-                [Op.like]: `%${name}%`
+    const response = source === 'api' ? (await axios.get(`${URL}/${id}?key=${API_KEY}`)) : await Videogame.findByPk(id, {
+        include: [
+            {
+                model: Genres,
+                attributes: ['name'],
             },
-        },
-        limit: 15,
-    })
-
-    const datosFilter = cleanGames(gameFilter);
-    return [...datosFilter, ...gameDB]
-}
-
-const detailGame = async (id, source) => {
-
-    const response = source === 'api' ? (await axios.get(`${URL}/${id}?key=${API_KEY}`)): await videogame.findByPk(id,{
-        include: {
-            model: genres,
-            attributes: ['name']
-        }
+        ],
     })
 
     if (!response) {
@@ -89,8 +112,12 @@ const detailGame = async (id, source) => {
     const videoGamesData = {
         id: data.id,
         name: data.name,
-        platforms: source === 'api' ? data.platforms?.map(platform => platform.platform.name) : data.plataforms,
+
+        platforms: source === 'api' ? data.platforms?.map(platform => platform.platform.name) : data.platforms,
+
+
         genres: source === 'api' ? data.genres?.map(genre => genre.name) : data.Genres?.map(genre => genre.name),
+
         rating: data.rating,
         image: source === 'api' ? data.background_image : data.image,
         description: removeTags(data.description),
@@ -99,31 +126,44 @@ const detailGame = async (id, source) => {
     };
     return videoGamesData;
 }
+const findGameByNameControllrs = async (name) => {
+    try {
+        const existingGame = await Videogame.findOne({ where: { name } });
+        return existingGame;
+    } catch (error) {
+        throw new Error('Error al buscar el juego por nombre.');
+    }
+}
+const createGameDBControllrs = async (name, released, description, rating, platforms, genres,image) => {
+    
+    try {
+        if (!genres.length) {
+            throw new Error('You must provide at least one genre');
+        }
+        const genre = await Genres.findAll({ where: { name: genres } });
+        const imageUrl = image ? image : 'https://img.freepik.com/fotos-premium/ilustracion-joystick-gamepad-controlador-juegos-cyberpunk_691560-5812.jpg';
 
-const createGameDB = async (name, date, description, rating, plataforms, gender, stores, image, UserId) => {
-    const newGame = await videogame.create({
-        name,
-        date,
-        description,
-        rating,
-        plataforms,
-        gender,
-        stores,
-        image
-    });
-
-    await videogame.setUser(UserId)
-
-    return newGame;
+        
+        const newVideoGame = await Videogame.create({
+            name,
+            platforms,
+            image: imageUrl,
+            description,
+            released,
+            rating,
+        });
+        await newVideoGame.addGenres(genre);
+        return newVideoGame;
+    } catch (error) {
+        throw error;
+    }
 }
 
-
-
-const getGameGenres = async () => {
+const getGameGenresControllrs = async () => {
     try {
-        const {data} = await axios.get(`${URLg}?key=${API_KEY}`);
+        const { data } = await axios.get(`${URLg}?key=${API_KEY}`);
         const genres = data.results;
-        
+
         if (!genres) {
             throw new Error('No hay generos')
         }
@@ -136,29 +176,12 @@ const getGameGenres = async () => {
     }
 }
 
-const getByPlatforms = async ()=>{
-    try {
-        const {data} = await axios.get(`${ULRp}`)
-        const plataforms = data.results;
-    if (!plataforms) {
-        throw Error('No hay platforms')
-    }
-
-    const cleanPlatforms = cleanArrayGenres(plataforms)
-
-    return [...cleanPlatforms];
-    } catch (error) {
-        throw Error(error.message);
-    }
-    
-}
-
 
 module.exports = {
-    detailGame,
-    getGameByName,
-    getAllGames,
-    createGameDB,
-    getGameGenres,
-    getByPlatforms
+    detailGameControllrs,
+    getGameByNameControllrs,
+    getAllGamesControllrs,
+    createGameDBControllrs,
+    getGameGenresControllrs,
+    findGameByNameControllrs
 }
