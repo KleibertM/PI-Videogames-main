@@ -1,4 +1,4 @@
-import { ADD_NEW_GAME, CLEAR_DETAILGAME, FILTER_LISTGENRES, FILTER_LISTPLATFORMS, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES, GET_PLATAFOMS, ORDER_LIST, PAGINATE, RATING_ORDER } from "../Actions/actions.types";
+import {  CLEAR_DETAILGAME, FILTER_LISTGENRES, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES,  ORDER_LIST, PAGINATE, RATING_ORDER } from "../Actions/actions.types";
 
 const initialState = {
     videoGames: [],
@@ -69,9 +69,10 @@ const reducer = (state = initialState, action) => {
 
         case GET_CREATED:
             const createdGames = state.allVideoGames.filter((game) => game.created === true);
+
             return {
                 ...state,
-                videoGames: createdGames.slice(0, PAGE_GAME),
+                videoGames: createdGames.splice(0, PAGE_GAME),
                 pageVideoGames: createdGames
             };
 
@@ -124,7 +125,7 @@ const reducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                videoGames: [...state.pageVideoGames].slice(firstIndex, PAGE_GAME),
+                videoGames: [...state.pageVideoGames].splice(firstIndex, PAGE_GAME),
                 currentPage: action.payload === "next" ? nextPage : prevPage,
             };
 

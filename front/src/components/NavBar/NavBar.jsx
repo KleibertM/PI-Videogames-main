@@ -13,6 +13,7 @@ import style from './NavBar.module.css'
 
 const NavBar = () => {
     const genres = useSelector((state) => state.genres);
+    const allGame = useSelector((state) => state.allVideoGames)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -44,10 +45,10 @@ const NavBar = () => {
         
         <div className={style.container}>
             <div className={style.navBar}>
-                <h4 className={style.titleNav} >Filtros</h4>
+                <h3 className={style.titleNav} >Filters:</h3>
                 <div className={style.btnFilter} >
                     <button
-                        className={style.btnFilter}
+                        className={style.btnFilterBtn}
                         value='created'
                         onClick={handleCreatedButton}>Created
                     </button>
@@ -55,12 +56,12 @@ const NavBar = () => {
 
                 <div className={style.btnFilter}>
                     <button
-                        className={style.btnFilter}
+                        className={style.btnFilterBtn}
                         value="AllGames"
                         onClick={handleAllGames}>All Games
                     </button>
                 </div>
-
+                <h3 className={style.titleNav} >Orders:</h3>
                 <div className={style.btnFilter}>
                     <select className={style.selectFilter}
                         name="rating"
@@ -90,7 +91,7 @@ const NavBar = () => {
                         placeholder="Gender"
                         onChange={handleFilter}
                     >
-                        <option >Genre selection</option>
+                        <option disabled >Genre selection</option>
                         {genres.map((genre) => (
                             <option 
                             key={genre.id} 

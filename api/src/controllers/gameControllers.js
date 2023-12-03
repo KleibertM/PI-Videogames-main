@@ -1,34 +1,20 @@
 const axios = require('axios');
 const URL = 'https://api.rawg.io/api/games';
 const URLg = 'https://api.rawg.io/api/genres';
-const {API_KEY} = process.env
-const { Videogame, Genres} = require('../db')
+const { API_KEY } = process.env
+const { Videogame, Genres } = require('../db')
 const { Op } = require('sequelize');
 const cleanArrayGenres = require('../utils/cleanGenres');
 
-const removeTags = require('../utils/removeTags')
+const removeTags = require('../utils/removeTags');
+const cleanGamesControllrs = require('../utils/cleanGamesData');
+const cleanGameDB = require('../utils/cleanGameDB');
 
-const cleanGamesControllrs = (array) => {
-    return array.map((game) => {
-        return {
-            id: game.id,
-            name: game.name,
-            released: game.released,
-            description: game.description,
-            rating: game.rating,
-            platforms: game.platforms,
-            gender: game.genres,
-            stores: game.stores,
-            image: game.background_image || game.image,
-            created: false
-        };
-
-    });
-};
 
 const getAllGamesControllrs = async () => {
     try {
         const gameResults = [];
+
         for (let i = 1; i <= 5; i++) {
             const gameApi = (await axios(`${URL}?key=${API_KEY}&page=${i}`)).data.results;
 
@@ -39,21 +25,17 @@ const getAllGamesControllrs = async () => {
             const infoApi = cleanGamesControllrs(gameApi);
             gameResults.push(...infoApi);
         }
-
         const gameDB = await Videogame.findAll({
-            include: [
-                {
-                    model: Genres,
-                    attributes: ['name'],
-                },
-            ],
+            include: {
+                model: Genres,
+                attributes: ['name']
+            }
         });
-
-        const cleanDB = cleanArrayGenres(gameDB);
+        const cleanDB = cleanGameDB(gameDB);
         return [...cleanDB, ...gameResults];
     } catch (error) {
-        throw Error('Error en getAllGames:', error);
-        ;
+        throw Error(`Error en getAllGamesControllrs: ${error.message || error}`);
+
     }
 };
 
@@ -68,23 +50,14 @@ const getGameByNameControllrs = async (name) => {
             return [...datosFilter];
         } else {
             const gameDB = await Videogame.findAll({
-                where: {
-                    [Op.or]: [
-                        {
-                            name: {
-                                [Op.like]: `%${name}%`
-                            }
-                        },
-                        {
-                            description: {
-                                [Op.like]: `%${name}%`
-                            }
-                        }
-                    ]
-                },
-                limit: 15
+                where: { name: { [Op.startsWith]: `%${name}%` } },
+                limit: 15,
+                include: {
+                    model: Genres,
+                    attributes: ['name']
+                }
             });
-            
+
             return gameDB.map((game) => ({ ...game.toJSON(), fromDB: true }));
         }
     } catch (error) {
@@ -134,23 +107,20 @@ const findGameByNameControllrs = async (name) => {
         throw new Error('Error al buscar el juego por nombre.');
     }
 }
-const createGameDBControllrs = async (name, released, description, rating, platforms, genres,image) => {
-    
+const createGameDBControllrs = async (name, platforms, genres, image, description, released, rating) => {
     try {
         if (!genres.length) {
             throw new Error('You must provide at least one genre');
         }
         const genre = await Genres.findAll({ where: { name: genres } });
-        const imageUrl = image ? image : 'https://img.freepik.com/fotos-premium/ilustracion-joystick-gamepad-controlador-juegos-cyberpunk_691560-5812.jpg';
 
-        
         const newVideoGame = await Videogame.create({
-            name,
-            platforms,
-            image: imageUrl,
-            description,
-            released,
-            rating,
+            name: name,
+            description: description,
+            platforms: platforms,
+            released: released,
+            image: image,
+            rating: rating,
         });
         await newVideoGame.addGenres(genre);
         return newVideoGame;
