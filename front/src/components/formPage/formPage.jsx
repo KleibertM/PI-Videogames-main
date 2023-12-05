@@ -4,9 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import Validation from "./validationForm";
 import axios from "axios";
 import style from './form.module.css'
-
+import { Link } from "react-router-dom";
 const FormPage = () => {
     const genres = useSelector((state) => state.genres);
+
     const dispatch = useDispatch()
     const URL = 'http://localhost:3001';
 
@@ -36,10 +37,9 @@ const FormPage = () => {
         rating: "",
     });
 
-
     const changeHandler = (event) => {
         const property = event.target.name;
-        const {value, checked} = event.target;
+        const { value, checked } = event.target;
 
         if (property === "genres") {
             if (checked) {
@@ -51,7 +51,7 @@ const FormPage = () => {
                 setForm({
                     ...form,
                     genres: [...form.genres.filter(i => i !== value)]
-                }) 
+                })
             }
         } else {
             setForm({
@@ -66,15 +66,6 @@ const FormPage = () => {
             })
         );
     };
-
-    console.log('data genre '+form.genres);
-    console.log('data relea '+form.released);
-    console.log('data imas '+form.image);
-    console.log('data descr '+form.description);
-    console.log('data name '+form.name);
-    console.log('data ratin '+form.rating);
-    console.log('data plat '+ form.platforms);
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -93,38 +84,49 @@ const FormPage = () => {
 
     return (
         <div className={style.container}>
-            <h1>Formulario de Creación de Videojuego</h1>
-            <form encType="multipart/form-data" onSubmit={handleSubmit}>
-            <div>
-                <label>Name:
-                    <input type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={changeHandler}/>
-                </label>
-            </div>
-                <hr />
-                <div>
-                    <label>Genres:
-                        {genres.map((genre) => (
-                            <div key={genre.id}>
-                                <input
-                                    type="checkbox"
-                                    name="genres"
-                                    value={genre.name}
-                                    checked={form.genres.includes(genre.name)}
-                                    onChange={changeHandler}
-                                />
-                                <label>{genre.name}</label>
-                            </div>
-                        ))}
+            <Link to='/home'>
+                <div className={style.btnIcon}>
+                    <button className={style.btn}> &lt;
+                    </button>
+                    <p className={style.btnText}>Back</p>
+                </div>
+                </Link>
+            <form encType="multipart/form-data" onSubmit={handleSubmit} className={style.form}>
+                <h1 className={style.titleForm}>Video Game Creation Form</h1>
+                <div className={style.boxLabel}>
+                    <label className={style.label} >Name:
+                        <input className={style.inputData} type="text"
+                            name="name"
+                            value={form.name}
+                            onChange={changeHandler} />
+                            {errors.name && <p>{errors.name}</p>}
+                    </label>
+                </div>
+
+                <div className={style.boxLabel}>
+                    <label className={style.label} >Genres:
+                        <div className={style.genres}>
+                            {genres.map((genre) => (
+                                <div key={genre.id} className={style.genreContain}>
+                                    <input className={style.inputData}
+                                        type="checkbox"
+                                        name="genres"
+                                        value={genre.name}
+                                        checked={form.genres.includes(genre.name)}
+                                        onChange={changeHandler}
+                                    />
+                                    <label className={style.nameGenre} >{genre.name}</label>
+                                </div>
+                            ))}
+                        </div>
                         {errors.genres && <p>{errors.genres}</p>}
                     </label>
                 </div>
 
-                <div>
-                    <label>Platforms:
-                        <input
+
+                <div className={style.boxLabel}>
+                    <label className={style.label} >Platforms:
+                        <input className={style.inputData}
                             value={form.platforms}
                             type="text"
                             name="platforms"
@@ -139,9 +141,9 @@ const FormPage = () => {
                     </label>
                 </div>
 
-                <div>
-                    <label>Rating:
-                        <input
+                <div className={style.boxLabel}>
+                    <label className={style.label}>Rating:
+                        <input className={style.inputData}
                             value={form.rating}
                             type="number"
                             name="rating"
@@ -152,9 +154,11 @@ const FormPage = () => {
                     </label>
                 </div>
 
-                <div>
-                    <label>Image:
+                <div className={style.boxLabel}>
+                    <label className={style.label} >
+                        Image:
                         <input
+                            className={style.inputData}
                             value={form.image}
                             type="text"
                             name="image"
@@ -165,11 +169,11 @@ const FormPage = () => {
                     </label>
                 </div>
 
-                <hr />
 
-                <div>
-                    <label>released:
-                        <input
+
+                <div className={style.boxLabel}>
+                    <label className={style.label} >Released:
+                        <input className={style.inputData}
                             value={form.released}
                             type="date"
                             name="released"
@@ -180,9 +184,9 @@ const FormPage = () => {
                     </label>
                 </div>
 
-                <div>
-                    <label>Description:
-                        <textarea
+                <div className={style.boxLabel}>
+                    <label className={style.label} >Description:
+                        <textarea className={style.inputData}
                             value={form.description}
                             name="description"
                             rows="4"

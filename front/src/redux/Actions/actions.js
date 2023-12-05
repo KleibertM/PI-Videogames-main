@@ -1,20 +1,22 @@
 import axios from "axios";
-import { CLEAR_DETAILGAME, FILTER_LISTGENRES,  GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES,ORDER_LIST, PAGINATE, RATING_ORDER } from "./actions.types";
+import { CLEAR_DETAILGAME, FILTER_LISTGENRES, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES, GET_NO_CREATED, ORDER_LIST, PAGINATE, RATING_ORDER } from "./actions.types";
 const URL = "http://localhost:3001";
 
 export const getAllVideoGames = () => {
-    try {
-        return async (dispatch) => {
-            const { data } = await axios.get(`${URL}/videogames`);
-            return dispatch({
+    return async (dispatch) => {
+        try {
+            const { data } = await axios(`${URL}/videogames`);
+            dispatch({
                 type: GET_ALLVIDEOGAMES,
-                payload: data
+                payload: data,
             });
-        };
-    } catch (error) {
-        throw Error(error.message);
+        } catch (error) {
+            console.error("Error fetching all video games:", error);
+            throw error;
+        }
     };
 };
+
 
 export const getDetailVideoGame = (id) => {
     try {
@@ -62,18 +64,17 @@ export const getGameByName = (name) => {
     return async (dispatch) => {
         try {
             const { data } = await axios.get(`${URL}/videogames?name=${name}`);
-            if (data.length === 0) {
-                throw new Error('Not Found');
-            }
-            return dispatch({
+            dispatch({
                 type: GET_GAME_BYNAME,
-                payload: data
+                payload: data,
             });
         } catch (error) {
+            console.error("Error fetching game by name:", error);
             throw new Error('This game does not exist');
         }
     };
 };
+
 
 
 export const filterVideoGames = (genres) => {
@@ -84,7 +85,7 @@ export const filterVideoGames = (genres) => {
                 payload: genres
             });
         } catch (error) {
-            console.error("Error:", error); 
+            console.error("Error:", error);
             throw new Error("Error desconocido");
         };
     };
@@ -102,6 +103,18 @@ export const getCreated = () => {
         };
     };
 };
+
+export const getNoCreated = () => {
+    return async (dispatch) => {
+        try {
+            return dispatch({
+                type: GET_NO_CREATED
+            });
+        } catch (error) {
+            throw new Error(error.response.data.error);
+        };
+    };
+}
 
 
 export const alphabeticalOrder = (order) => {

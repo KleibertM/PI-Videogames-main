@@ -1,9 +1,10 @@
-.container{
+.container {
     position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    .card{
+
+    .card {
         position: relative;
         display: flex;
         flex-direction: column;
@@ -13,21 +14,164 @@
         overflow: hidden;
         border-radius: .5rem;
         transition: .3s ease;
-        &:hover{
-            box-shadow:  0px 0px 10px orange;
-            /* outline: solid 2px orange; */
+        animation: cards linear both;
+        animation-timeline: view();
+        animation-range: entry  5% cover 10%;
+        &:hover {
+            box-shadow: 0px 0px 10px orange;
             transform: translateX(5px) scale(1.05);
         }
-        .imgCard{
+
+        .imgCard {
             width: 100%;
             height: auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            .img{
+
+            .img {
                 width: 100%;
                 height: 9rem;
             }
         }
+
+        .dataContainer {
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            height: 100%;
+            .data {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 1rem;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                .titleGame{
+                    text-shadow: 0 1px 5px orange;
+                    width: 100%;
+                    
+                    overflow: hidden;
+                    white-space: nowrap; /* Evita el salto de línea */
+                    text-overflow: ellipsis; 
+                }
+                .dataRating{
+                    position: relative;
+                    font-weight: bold;
+                    color: orange;
+                    .ratingText{
+                        color: black;
+                        background-color: orange;
+                        padding: 0 .5rem;
+                        border-radius: 1rem;
+                    }
+                }
+                .dataGenres {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    gap: 1rem;
+                    overflow: hidden;
+                    .genresTitle {
+                        position: relative;
+                        font-weight: bold;
+                        color: orange;
+                        width: 20%;
+                        z-index: 99;
+                    }
+                    .anim{
+                        width: 80%;
+                        overflow: hidden;
+                        .genresContainer {
+                            position: relative;
+                            display: flex;
+                            justify-content: flex-start;
+                            gap: 1rem;
+                            width: 100%;
+                            animation: genres 10s linear infinite;
+                            .genresText {
+                                background-color: orange;
+                                padding: 0 .5rem;
+                                border-radius: 1rem;
+                                width: 50%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .info{
+            position: absolute;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: .2rem;
+            right: 0;
+            top: 0;
+            
+            .detailLink{
+                z-index: 5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgba(0, 0, 0, 0.463);
+                outline: 1px solid whitesmoke;
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+                color: orange;
+                border-radius: 50%;
+                transition: .3s ease;
+                &:hover{
+                    border-radius: 0 1rem 1rem 0;
+                    background-color: grey;
+                    outline: none;
+                    .detailText{
+                        visibility: visible;
+                    }
+                }
+                .detailText{
+                    position: absolute;
+                    right: 1.5rem;
+                    color: orange;
+                    background-color: grey;
+                    padding: 0 .5rem;
+                    border-radius: 1rem 0 0 1rem ;
+                    visibility: hidden;
+                    animation: 2s detail linear forwards;
+                }
+            }
+        }
     }
+}
+
+@keyframes cards {
+    from {
+        opacity: 0;
+        filter: contrast(0%);
+    }
+
+    to {
+        opacity: 1;
+        filter: contrast(120%);
+    }
+}
+
+@keyframes genres {
+    0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-80%);
+      }
 }

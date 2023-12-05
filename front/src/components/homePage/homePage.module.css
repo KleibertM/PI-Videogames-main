@@ -1,0 +1,81 @@
+.container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    .homeBar{
+        position: relative;
+        width: 100%;
+        height: auto;
+        z-index: 999;
+        background-color: green;
+        .homeBarComp{
+            position: fixed;
+            width: 100%;
+        }
+    }
+    .homeCards{
+        position: sticky;
+        overflow: hidden;
+        padding: 1rem 0;
+        margin: 8rem 0;
+    }
+    .btnPage{
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        padding: 0 1rem;
+        gap: 1.5rem;
+        bottom: 5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.453);
+        border-radius: 2rem;
+        outline: 1px solid orange;
+        border:  none;
+        .btnIcon{
+            height: 3rem;
+            width: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .3s ease all;
+            .btn{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                width: 100%;
+                position: relative;
+                font-size: 3rem;
+                background: none;
+                background-color: rgba(241, 241, 241, 0.105);
+                border-radius: 50%;
+                padding: 1rem;
+                transition: .2s ease;
+                cursor: pointer;
+                &:hover{
+                    border: 3px inset orange;
+                }
+            }
+            &:hover{
+                
+                .btnText{
+                    display: block;
+                }
+            }
+            .btnText{
+                display: none;
+                position: absolute;
+                bottom: 3.3rem;
+                background-color: gray;
+                padding: .1rem 1rem;
+                border-radius: 1rem;
+                font-size: 1.1rem;
+                color: orange;
+                outline: 2px solid orange;
+            }
+        }
+    }
+}

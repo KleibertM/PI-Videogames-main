@@ -1,3 +1,31 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: orange;
+    /* Color del "pulgar" (barra de desplazamiento móvil) */
+    border-radius: 1rem;
+    /* Bordes redondeados */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: black;
+    /* Color del área de la barra de desplazamiento */
+
+  }
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -20,7 +48,7 @@
   --color-icon: #D5CEA3;
   --color-bg: #E5E5CB;
   --color-shadow: #3C2A21; */
-} 
+}
 
 
 
@@ -29,9 +57,11 @@
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }

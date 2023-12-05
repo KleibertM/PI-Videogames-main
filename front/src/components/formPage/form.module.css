@@ -4,11 +4,180 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .form{
+    height: 90vh;
+    margin-bottom: 4rem;
+    .btnIcon{
+        position: absolute;
+        right: 1rem;
+        top: 6rem;
+        height: 3rem;
+        width: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .3s ease all;
+        .btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            position: relative;
+            font-size: 3rem;
+            background: none;
+            background-color: rgba(241, 241, 241, 0.105);
+            border-radius: 50%;
+            padding: 1rem;
+            transition: .2s ease;
+            cursor: pointer;
+            &:hover{
+                border: 3px inset orange;
+            }
+        }
+        &:hover{
+            
+            .btnText{
+                display: block;
+            }
+        }
+        .btnText{
+            display: none;
+            position: absolute;
+            top: 3.3rem;
+            background-color: gray;
+            padding: .1rem 1rem;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            color: orange;
+            outline: 2px solid orange;
+        }
+    }
+
+    .form {
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 1rem;
+        width: 60vw;
+        height: auto;
+        margin-top: 4rem;
+        border-radius: 1rem;
+        background-color: rgba(0, 0, 0, 0.447);
+
+        .titleForm {
+            color: whitesmoke;
+            border-bottom: 2px solid orange;
+            padding-bottom: 5px;
+        }
+
+        .boxLabel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0 1rem;
+            height: auto;
+
+            .label {
+                position: relative;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 1.5rem;
+                gap: .5rem;
+                overflow: hidden;
+
+                >p {
+                    position: absolute;
+                    right: 3rem;
+                    z-index: 88;
+                    color: brown;
+                }
+
+                .inputData {
+                    width: 70%;
+                    height: 2rem;
+                    font-size: 1.5rem;
+                    border: none;
+                    border-radius: 1rem;
+                    padding: 0 1rem;
+                    color: orange;
+                    text-transform: capitalize;
+                }
+
+                .genres {
+                    position: relative;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: .5rem;
+                    overflow: auto;
+                    width: 70%;
+
+                    &::-webkit-scrollbar {
+                        width: 6px;
+                        /* Ancho de la barra de des6azamiento */
+                        height: 4px;
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                        background-color: #888;
+                        /* Color del "pulgar" (barra de desplazamiento móvil) */
+                        border-radius: 1rem;
+                        /* Bordes redondeados */
+                    }
+
+                    &::-webkit-scrollbar-track {
+                        background-color: black;
+                        /* Color del área de la barra de desplazamiento */
+
+                    }
+
+                    .genreContain {
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        background-color: orange;
+                        border-radius: 1rem;
+                        padding: 0 .5rem;
+                        gap: .5rem;
+                        width: auto;
+                        height: auto;
+
+                        .nameGenre {
+                            color: black;
+                            font-size: 1rem;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+            }
+        }
+
+        .submit {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+            width: 90%;
+            height: 1.8rem;
+            background-color: rgb(15, 173, 44);
+            border: none;
+            border-radius: 1rem;
+            letter-spacing: 1rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: .3s ease;
+
+            &:hover {
+                background-color: green;
+                outline: 1px solid whitesmoke;
+                box-shadow: 0 2px 10px whitesmoke;
+            }
+        }
     }
 }

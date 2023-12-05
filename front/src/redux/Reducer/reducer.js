@@ -1,4 +1,4 @@
-import {  CLEAR_DETAILGAME, FILTER_LISTGENRES, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES,  ORDER_LIST, PAGINATE, RATING_ORDER } from "../Actions/actions.types";
+import {  CLEAR_DETAILGAME, FILTER_LISTGENRES, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES,  GET_NO_CREATED,  ORDER_LIST, PAGINATE, RATING_ORDER } from "../Actions/actions.types";
 
 const initialState = {
     videoGames: [],
@@ -8,6 +8,7 @@ const initialState = {
     genres: [],
     currentPage: 0
 }
+
 
 const reducer = (state = initialState, action) => {
     const PAGE_GAME = 15;
@@ -75,7 +76,15 @@ const reducer = (state = initialState, action) => {
                 videoGames: createdGames.splice(0, PAGE_GAME),
                 pageVideoGames: createdGames
             };
+        
+        case GET_NO_CREATED: 
+            const noCreated = state.allVideoGames.filter((game) => game.created === false);
 
+            return {
+                ...state,
+                videoGames: noCreated.splice(0, PAGE_GAME),
+                pageVideoGames: noCreated
+            };
 
         case ORDER_LIST:
             let orderedList = [...state.pageVideoGames];

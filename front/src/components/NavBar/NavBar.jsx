@@ -7,13 +7,13 @@ import {
     getAllGenres,
     getAllVideoGames,
     getCreated,
+    getNoCreated,
     ratingOrder
 } from "../../redux/Actions/actions";
 import style from './NavBar.module.css'
 
 const NavBar = () => {
     const genres = useSelector((state) => state.genres);
-    const allGame = useSelector((state) => state.allVideoGames)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -21,28 +21,33 @@ const NavBar = () => {
     }, []);
 
     
+    const handleNoCreatedButton = ()=>{
+        dispatch(getNoCreated())
+    }
+
     const handleCreatedButton = () => {
         dispatch(getCreated());
     };
-    
-    const handleFilter = (event) => {
-        dispatch(filterVideoGames(event.target.value));
-    };
+
 
     const handleAllGames = () => {
         dispatch(getAllVideoGames());
     };
 
-    const handleSort = (event) => {
-        dispatch(alphabeticalOrder(event.target.value));
+    const handleFilter = (event) => {
+        dispatch(filterVideoGames(event.target.value));
     };
 
     const ratingHandler = (event) => {
         dispatch(ratingOrder(event.target.value))
     };
 
+    const handleSort = (event) => {
+        dispatch(alphabeticalOrder(event.target.value));
+    };
+
     return (
-        
+
         <div className={style.container}>
             <div className={style.navBar}>
                 <h3 className={style.titleNav} >Filters:</h3>
@@ -51,6 +56,14 @@ const NavBar = () => {
                         className={style.btnFilterBtn}
                         value='created'
                         onClick={handleCreatedButton}>Created
+                    </button>
+                </div>
+
+                <div className={style.btnFilter} >
+                    <button
+                        className={style.btnFilterBtn}
+                        value='created'
+                        onClick={handleNoCreatedButton}>Uncreated
                     </button>
                 </div>
 
@@ -67,9 +80,10 @@ const NavBar = () => {
                         name="rating"
                         placeholder="Rating"
                         onChange={ratingHandler}>
-                        <option disabled>Sort by rating</option>
-                        <option value='Falling'>Better Rating</option>
-                        <option value='Upward'>Down Rating</option>
+                        <option disabled selected>Sort by rating</option>
+                        <option value='Falling'>
+                            Best to Worst</option>
+                        <option value='Upward'>Worse to Better</option>
                     </select>
                 </div>
 
@@ -78,9 +92,9 @@ const NavBar = () => {
                         name="alphabetical"
                         placeholder="Alphabetical"
                         onChange={handleSort}>
-                        <option disabled>Sort by name</option>
-                        <option value='A'>Ascendt</option>
-                        <option value='D'>Desendent</option>
+                        <option disabled selected>Sort by name</option>
+                        <option value='A'>Upwardt</option>
+                        <option value='D'>Falling</option>
                     </select>
                 </div>
 
@@ -91,11 +105,11 @@ const NavBar = () => {
                         placeholder="Gender"
                         onChange={handleFilter}
                     >
-                        <option disabled >Genre selection</option>
+                        <option disabled >Choose a genre</option>
                         {genres.map((genre) => (
-                            <option 
-                            key={genre.id} 
-                            value={genre.name}>
+                            <option
+                                key={genre.id}
+                                value={genre.name}>
                                 {genre.name}
                             </option>
                         ))}

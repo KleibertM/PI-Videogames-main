@@ -89,7 +89,9 @@ const detailGameControllrs = async (id, source) => {
         platforms: source === 'api' ? data.platforms?.map(platform => platform.platform.name) : data.platforms,
 
 
-        genres: source === 'api' ? data.genres?.map(genre => genre.name) : data.Genres?.map(genre => genre.name),
+        genres: source === 'api' ? 
+        data.genres?.map(genre => genre.name) 
+        : data.Genres?.map(genre => genre.name),
 
         rating: data.rating,
         image: source === 'api' ? data.background_image : data.image,
@@ -99,6 +101,7 @@ const detailGameControllrs = async (id, source) => {
     };
     return videoGamesData;
 }
+
 const findGameByNameControllrs = async (name) => {
     try {
         const existingGame = await Videogame.findOne({ where: { name } });
@@ -107,6 +110,7 @@ const findGameByNameControllrs = async (name) => {
         throw new Error('Error al buscar el juego por nombre.');
     }
 }
+
 const createGameDBControllrs = async (name, platforms, genres, image, description, released, rating) => {
     try {
         if (!genres.length) {

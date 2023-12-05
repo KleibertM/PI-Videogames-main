@@ -10,5 +10,5 @@ export const ORDER_LIST = "ORDER_LIST"
 export const RATING_ORDER = "RATING_ORDER"
 export const PAGINATE = "PAGINATE";
 export const FILTER_LISTPLATFORMS = "FILTER_LISTPLATFORMS";
-
+export const GET_NO_CREATED = 'GET_NO_CREATED'
 export const ADD_NEW_GAME = 'ADD_NEW_GAME'
