@@ -1,10 +1,15 @@
+import Loading from '../Loading/Loading';
 import styles from './Card.module.css'
 import { Link, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { paginateGames } from '../../redux/Actions/actions';
 
 const Card = ({ id, name, image, rating, genres }) => {
     return (
         <div className={styles.container}>
-            <div key={id} className={styles.card} >
+            {
+                genres ? (
+                    <div key={id} className={styles.card} >
                 <div className={styles.imgCard}>
                     <img src={image} alt={name} className={styles.img} loading='lazy' />
                 </div>
@@ -36,6 +41,11 @@ const Card = ({ id, name, image, rating, genres }) => {
                     </NavLink>
                 </div>
             </div>
+                ) : (
+                    <Loading />
+                )
+            }
+
         </div>
     )
 }

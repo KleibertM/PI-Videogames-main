@@ -65,7 +65,7 @@
         margin-top: 4rem;
         border-radius: 1rem;
         background-color: rgba(0, 0, 0, 0.447);
-
+        box-shadow: 0 0 15px orange;
         .titleForm {
             color: whitesmoke;
             border-bottom: 2px solid orange;

@@ -19,6 +19,7 @@ import LoginUSer from './components/Users/Login';
 import SearchBar from './components/searchBar/searchBar';
 import HomePage from './components/homePage/homePage';
 import DetailPage from './components/detailPage/DetailPage';
+import Loading from "./components/Loading/Loading";
 
 const App = () => {
   const {pathname} = useLocation();
@@ -36,6 +37,7 @@ const App = () => {
                 </div>}
       <Routes>
         <Route path='/' element={<LandingPage />} />
+        {/* <Route path='/' element={<Loading />} /> */}
         <Route path='/home' element={< HomePage />} />
         <Route path='/detail/:id' element={<DetailPage />} />
         <Route path='/create' element={< CreateGame />} />

@@ -2,16 +2,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    /* Theme Dark */
-    --color-title-N-: #F94C10;
-    --color-icon-N-: #F8DE22;
-    --color-bg-N-: #900C3F;
-    --color-shadow-N-: #C70039;
-    /* Theme Light */
-    --color-title-L-: #1A120B;
-    --color-icon-L-: #D5CEA3;
-    --color-bg-L-: #E5E5CB;
-    --color-shadow-L-: #3C2A21;
 }
 
 .container {
@@ -20,26 +10,54 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
-    background: center url(../../assets/img/bgCyber.jpg);
-
-    .btn {
-        
-        width: 10rem;
-        height: 3rem;
+    overflow: hidden;
+    .btn_home {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        >button{
-
-            background-color: var(--color-bg-N-);
+        height: 100vh;
+        
+        .img {
+            width: 5rem;
+            flex-grow: 1;
+            object-fit: cover;
+            opacity: .7;
+            transition: .5s ease-in-out;
             
+            &:hover {
+                cursor: crosshair;
+                width: 300px;
+                opacity: 1;
+                filter: contrast(120%);
+            }
+        }
+        
+        .btn {
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
-            height: 100%;
-            border-radius: 1rem;
-            font-size: 2rem;
-            cursor: pointer;
-            border: none;
+            height: 20vh;
+            left: 0;
+            bottom: 40%;
+            text-decoration: none;
+            z-index: 99;
+            cursor: context-menu;
+            background-color: rgba(20, 19, 19, 0.43);
+            .btnText {
+                font-size: 4rem;
+                padding: 0 2rem;
+                border-radius: 5rem;
+                list-style: none;
+                text-decoration: none;
+                font-style: normal;
+                outline: 2px solid orange;
+                background: transparent;
+                transition: .3s ease;
+                cursor: pointer;
+                &:hover{
+                    box-shadow: 0 2px 20px orange;
+                }
+            }
         }
     }
 }

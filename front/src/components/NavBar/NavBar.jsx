@@ -11,6 +11,7 @@ import {
     ratingOrder
 } from "../../redux/Actions/actions";
 import style from './NavBar.module.css'
+import Loading from "../Loading/Loading";
 
 const NavBar = () => {
     const genres = useSelector((state) => state.genres);
@@ -49,7 +50,9 @@ const NavBar = () => {
     return (
 
         <div className={style.container}>
-            <div className={style.navBar}>
+            {
+                useEffect ? (
+                <div className={style.navBar}>
                 <h3 className={style.titleNav} >Filters:</h3>
                 <div className={style.btnFilter} >
                     <button
@@ -116,6 +119,11 @@ const NavBar = () => {
                     </select>
                 </div>
             </div >
+                ) : (
+                <Loading/>
+                )
+            }
+            
         </div>
     )
 };

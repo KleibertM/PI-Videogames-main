@@ -3,7 +3,7 @@ import { getGameByName } from '../../redux/Actions/actions';
 import { useDispatch } from "react-redux";
 import { useState } from 'react';
 import style from './searchBar.module.css';
-import icon from '../../assets/img/iconGame.png'
+import icon from '../../assets/img/iconGam.png'
 
 const SearchBar = () => {
     const dispatch = useDispatch()
