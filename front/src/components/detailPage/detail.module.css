@@ -16,6 +16,7 @@
         align-items: center;
         justify-content: center;
         transition: .3s ease all;
+        z-index: 99;
         .btn{
             display: flex;
             justify-content: center;
@@ -25,7 +26,7 @@
             position: relative;
             font-size: 3rem;
             background: none;
-            background-color: rgba(241, 241, 241, 0.105);
+            background-color: rgba(128, 128, 128, 0.246);
             border-radius: 50%;
             padding: 1rem;
             transition: .2s ease;
@@ -44,7 +45,7 @@
             display: none;
             position: absolute;
             top: 3.3rem;
-            background-color: gray;
+            background-color: rgba(128, 128, 128, 0.246);
             padding: .1rem 1rem;
             border-radius: 1rem;
             font-size: 1.1rem;
@@ -131,7 +132,7 @@
                         }
 
                         &::-webkit-scrollbar-thumb {
-                            background-color: #888;
+                            background-color: rgba(128, 128, 128, 0.246);
                             /* Color del "pulgar" (barra de desplazamiento móvil) */
                             border-radius: 1rem;
                             /* Bordes redondeados */
@@ -243,7 +244,66 @@
                 justify-content: flex-start;
                 align-items: center;
                 font-size: 1.1rem;
+                color: orange;
+                font-weight: bold;
             }
+            .textDescr{
+                background-color: rgba(255, 166, 0, 0.088);
+                padding: 0 1rem;
+                border-radius: 1rem;
+                text-wrap: pretty;
+            }
+        }
+    }
+}
+
+@media (max-width:440px) {
+    .detailBox{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 9rem;
+        .btnIcon{
+            position: fixed;
+            top: .5rem;
+            right: .5rem;
+            z-index: 999;
+            .btn{
+                color: orange;
+            }
+        }
+        .info{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            .detail{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                .image{
+                    width: 90%;
+                    .img{
+                        animation: img 20s ease-in-out  infinite ;
+                        &:hover{
+                            transform: none;
+                        }
+                    }
+                }
+                .detailText{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    width: 100%;
+                    height: auto;
+                    .platforms{
+                        gap: 1rem;
+                    }
+                }
+            }
+        }
+    }
+    @keyframes img {
+        to {
+            transform: scale(1.5);
         }
     }
 }

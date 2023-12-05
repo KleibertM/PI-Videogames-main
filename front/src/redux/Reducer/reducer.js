@@ -1,4 +1,4 @@
-import {  CLEAR_DETAILGAME, FILTER_LISTGENRES, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES,  GET_NO_CREATED,  ORDER_LIST, PAGINATE, RATING_ORDER } from "../Actions/actions.types";
+import {  CLEAR_DETAILGAME, FILTER_LISTGENRES, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES,  GET_NO_CREATED,  GET_VIDEOGAMES,  ORDER_LIST, PAGINATE, RATING_ORDER } from "../Actions/actions.types";
 
 const initialState = {
     videoGames: [],
@@ -16,10 +16,17 @@ const reducer = (state = initialState, action) => {
         case GET_ALLVIDEOGAMES:
             return {
                 ...state,
-                videoGames: [...action.payload].slice(0, PAGE_GAME),
+                videoGames: [...action.payload].splice(0, PAGE_GAME),
                 pageVideoGames: action.payload,
                 allVideoGames: action.payload,
             };
+
+        case GET_VIDEOGAMES:
+            const videoGam = state.allVideoGames.filter((game) => game);
+            return{
+                ...state,
+                videoGames: videoGam
+            }
 
         case GET_DETAILGAME:
             return {
@@ -57,16 +64,6 @@ const reducer = (state = initialState, action) => {
                 pageVideoGames: [...filterGenres],
                 videoGames: filterGenres.slice(0, PAGE_GAME),
             };
-
-        // case FILTER_LISTPLATFORMS:
-        //     const filterByPlataform = state.allVideoGames.filter((platform) => {
-        //         return platform.platforms.includes(action.payload);
-        //     })
-        //     return {
-        //         ...state,
-        //         pageVideoGames: [...filterByPlataform],
-        //         videoGames: filterByPlataform.slice(0, PAGE_GAME),
-        //     }
 
         case GET_CREATED:
             const createdGames = state.allVideoGames.filter((game) => game.created === true);

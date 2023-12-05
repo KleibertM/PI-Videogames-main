@@ -154,6 +154,13 @@
         }
     }
 }
+@media (max-width: 440px) {
+    .card{
+        box-shadow: 0px 0px 1px orange;
+        
+    }
+   
+}
 
 @keyframes cards {
     from {

@@ -7,7 +7,6 @@
         width: 100%;
         height: auto;
         z-index: 999;
-        background-color: green;
         .homeBarComp{
             position: fixed;
             width: 100%;
@@ -50,7 +49,7 @@
                 position: relative;
                 font-size: 3rem;
                 background: none;
-                background-color: rgba(241, 241, 241, 0.105);
+                background-color: rgba(128, 128, 128, 0.246);
                 border-radius: 50%;
                 padding: 1rem;
                 transition: .2s ease;
@@ -69,12 +68,30 @@
                 display: none;
                 position: absolute;
                 bottom: 3.3rem;
-                background-color: gray;
+                background-color: rgba(128, 128, 128, 0.246);
                 padding: .1rem 1rem;
                 border-radius: 1rem;
                 font-size: 1.1rem;
                 color: orange;
                 outline: 2px solid orange;
+            }
+        }
+    }
+}
+
+@media (max-width: 440px) {
+    .container{
+        .homeCards{
+            margin: 5rem 0;
+            margin-bottom: 8rem;
+        }
+        .btnPage{
+            width: 90%;
+            justify-content: space-between;
+            &:hover{
+                .btnText{
+                    visibility: hidden;
+                }
             }
         }
     }

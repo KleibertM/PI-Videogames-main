@@ -5,6 +5,8 @@ import Validation from "./validationForm";
 import axios from "axios";
 import style from './form.module.css'
 import { Link } from "react-router-dom";
+import Loading from "../Loading/Loading";
+
 const FormPage = () => {
     const genres = useSelector((state) => state.genres);
 
@@ -84,7 +86,10 @@ const FormPage = () => {
 
     return (
         <div className={style.container}>
-            <Link to='/home'>
+            {
+                form ? ( 
+                    <>
+                    <Link to='/home'>
                 <div className={style.btnIcon}>
                     <button className={style.btn}> &lt;
                     </button>
@@ -162,7 +167,6 @@ const FormPage = () => {
                             value={form.image}
                             type="text"
                             name="image"
-                            placeholder="Enter Image URL"
                             onChange={changeHandler}
                         />
                         {errors.image && <p>{errors.image}</p>}
@@ -198,6 +202,12 @@ const FormPage = () => {
 
                 <button className={style.submit} type="submit">Register</button>
             </form>
+                    </>
+                ) : (
+                    <Loading/>
+                )
+            }
+            
         </div>
     )
 }

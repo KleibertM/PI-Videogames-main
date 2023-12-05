@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { getGameByName } from '../../redux/Actions/actions';
 import { useDispatch } from "react-redux";
 import { useState } from 'react';
 import style from './searchBar.module.css';
 import icon from '../../assets/img/iconGam.png'
+import NavBar from '../NavBar/NavBar';
 
 const SearchBar = () => {
     const dispatch = useDispatch()
@@ -13,6 +14,11 @@ const SearchBar = () => {
     const inputChange = (event) => {
         setSearchName(event.target.value);
     };
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const handlerSearchBar = () =>{
+        setMenuOpen(!menuOpen);
+    }
 
     const searchHandler = () => {
         if (!searchName) {
@@ -28,6 +34,15 @@ const SearchBar = () => {
 
     return (
         <div className={style.container} >
+            <div className={style.toggleBtn} onClick={handlerSearchBar}>
+            ☰
+            </div>
+            {menuOpen && (
+                <div className={style.mobileMenu}>
+                <NavLink to='/form'  className={style.link}>Create new game</NavLink>
+                {/* <NavLink to='/home' className={style.link}>About</NavLink> */}
+                </div>
+            )}
             <div className={style.boxLogo} >
                 <Link to='/home'>
                     <img src={icon} alt='Icon Game' className={style.logoIcon} />

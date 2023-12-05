@@ -25,7 +25,7 @@
             position: relative;
             font-size: 3rem;
             background: none;
-            background-color: rgba(241, 241, 241, 0.105);
+            background-color: rgba(128, 128, 128, 0.246);
             border-radius: 50%;
             padding: 1rem;
             transition: .2s ease;
@@ -44,7 +44,7 @@
             display: none;
             position: absolute;
             top: 3.3rem;
-            background-color: gray;
+            background-color: rgba(128, 128, 128, 0.246);
             padding: .1rem 1rem;
             border-radius: 1rem;
             font-size: 1.1rem;
@@ -79,7 +79,6 @@
             width: 100%;
             padding: 0 1rem;
             height: auto;
-
             .label {
                 position: relative;
                 width: 100%;
@@ -124,7 +123,7 @@
                     }
 
                     &::-webkit-scrollbar-thumb {
-                        background-color: #888;
+                        background-color: rgba(128, 128, 128, 0.246);
                         /* Color del "pulgar" (barra de desplazamiento móvil) */
                         border-radius: 1rem;
                         /* Bordes redondeados */
@@ -177,6 +176,54 @@
                 background-color: green;
                 outline: 1px solid whitesmoke;
                 box-shadow: 0 2px 10px whitesmoke;
+            }
+        }
+    }
+}
+
+@media (max-width: 440px) {
+    .container{
+        height: auto;
+        .btnIcon{
+            position: fixed;
+            top: .5rem;
+            right: .5rem;
+            z-index: 999;
+            .btn{
+                color: orange;
+            }
+            
+        }
+
+        .form{
+            width: 80vw;
+            height: auto;
+            .titleForm{
+                padding: 0 1rem;
+                text-align: center;
+            }
+            .boxLabel{
+                .label{
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0;
+                    >p {
+                        position: absolute;
+                        right: 1rem;
+                        top: 2rem;
+                        z-index: 88;
+                        color: brown;
+                        white-space: nowrap;
+                    }
+                    .inputData{
+                        width: 100%;
+                    }
+
+                    .genres{
+                        width: 100%;
+                    }
+                }
             }
         }
     }
