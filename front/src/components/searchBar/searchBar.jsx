@@ -25,8 +25,10 @@ const SearchBar = () => {
             alert('Write a name')
         } else {
             dispatch(getGameByName(searchName))
+            // setSearchName('')
                 .catch((error) => {
                     setErrors(error.message);
+                    
                     alert('No foung game')
                 });
         }
@@ -47,7 +49,7 @@ const SearchBar = () => {
                 <Link to='/home'>
                     <img src={icon} alt='Icon Game' className={style.logoIcon} />
                 </Link>
-                <h1 className={style.logoText} >BOX GAME</h1>
+                <h1 className={style.logoText} >GameHub</h1>
             </div>
             <div className={style.searchBar} >
                 <input

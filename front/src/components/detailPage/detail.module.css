@@ -83,6 +83,7 @@
                     width: auto;
                     border-radius: 3rem;
                     transition: .5s ease;
+                    animation: img 20s ease-in-out  infinite ;
                     &:hover{
                         transform: scale(1.7);
                     }
@@ -256,7 +257,11 @@
         }
     }
 }
-
+@keyframes img {
+    to {
+        transform: scale(1.5);
+    }
+}
 @media (max-width:440px) {
     .detailBox{
         display: flex;

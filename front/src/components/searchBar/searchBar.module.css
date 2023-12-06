@@ -151,6 +151,7 @@
         justify-content: flex-start;
         gap: 1rem;
         align-items: center;
+        width: 100%;
         .boxLogo{
             position: fixed;
             padding: .5rem 0;
@@ -160,12 +161,14 @@
             bottom: 0;
             background-color: black;
             width: 85%;
+            width: 100%;
             height: 60px;
             left: 0;
             display: flex;
             flex-direction: row-reverse;
+            justify-content: flex-end;
             >input {
-                width: 100%;
+                width: 70%;
                 height: 100%;
                 padding: 0 2rem;
                 border-radius: 2rem;
@@ -186,10 +189,14 @@
                     border-radius: 50%;
                     transition: .3s ease;
                     cursor: pointer;
-                    
+                    &:hover{
+                        background-color: rgba(128, 128, 128, 0.246);
+                    }
                 }
-                .btnText{
-                    display: none;
+                &:hover{
+                    .btnText{
+                        display: none;
+                    }
                 }
             }
         }

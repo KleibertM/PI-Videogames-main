@@ -77,7 +77,17 @@ const FormPage = () => {
 
         if (!hasErrors) {
             axios.post(`${URL}/videogames`, form)
-                .then((response) => alert('Successfully created'))
+                .then((response) => alert('Successfully created'),
+                setForm({
+                    name: "",
+                    description: "",
+                    platforms: "",
+                    genres: [],
+                    image: "",
+                    released: "",
+                    rating: "",
+                }))
+
                 .catch((error) => alert("Error creating video game"));
         } else {
             alert('There are errors in the form. Cannot submit')

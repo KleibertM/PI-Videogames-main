@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
             const videoGam = state.allVideoGames.filter((game) => game);
             return{
                 ...state,
-                videoGames: videoGam
+                videoGames: [...videoGam].splice(0, PAGE_GAME)
             }
 
         case GET_DETAILGAME:
@@ -39,6 +39,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 detail: []
             };
+        // case DELETE_GAME: 
+        //     const gameDelete = state.allVideoGames.filter((game) => game.id !== action.payload);
+        //     return {
+        //     ...state,
+        //     allVideoGames: gameDelete,
+        //     videoGames: gameDelete.splice(0, PAGE_GAME),
+        //     }
 
         case GET_GENRES:
             return {

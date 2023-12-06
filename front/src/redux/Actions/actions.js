@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CLEAR_DETAILGAME, FILTER_LISTGENRES, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES, GET_NO_CREATED, GET_VIDEOGAMES, ORDER_LIST, PAGINATE, RATING_ORDER } from "./actions.types";
+import { CLEAR_DETAILGAME,FILTER_LISTGENRES, GET_ALLVIDEOGAMES, GET_CREATED, GET_DETAILGAME, GET_GAME_BYNAME, GET_GENRES, GET_NO_CREATED, GET_VIDEOGAMES, ORDER_LIST, PAGINATE, RATING_ORDER } from "./actions.types";
 const URL = "http://localhost:3001";
 
 export const getAllVideoGames = () => {
@@ -54,6 +54,21 @@ export const clearDetail = () => {
         };
     };
 };
+
+// export const deleteGame = (id)=>{
+//     return async (dispatch) => {
+//         try {
+//             return dispatch({
+//                 type: DELETE_GAME,
+//                 payload: id
+//             });
+//         } catch (error) {
+//             console.error("Error:", error);
+//             throw new Error("Error delete game");
+//         };
+//     };
+// }
+
 
 export const getAllGenres = () => {
     try {

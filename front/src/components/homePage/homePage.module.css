@@ -88,6 +88,8 @@
         .btnPage{
             width: 90%;
             justify-content: space-between;
+            outline: none;
+            background: none;
             &:hover{
                 .btnText{
                     visibility: hidden;

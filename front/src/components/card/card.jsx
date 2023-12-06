@@ -2,14 +2,20 @@ import Loading from '../Loading/Loading';
 import styles from './Card.module.css'
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { paginateGames } from '../../redux/Actions/actions';
+// import { deleteGame, paginateGames } from '../../redux/Actions/actions';
 
 const Card = ({ id, name, image, rating, genres }) => {
+    const dispatch = useDispatch();
+
+    // const deleteVideoGames = (id) =>{
+    //     dispatch(deleteGame(id))
+    // }
     return (
         <div className={styles.container}>
             {
                 genres ? (
                     <div key={id} className={styles.card} >
+                        {/* <div><button onClick={deleteVideoGames(id)}>Delete</button></div> */}
                 <div className={styles.imgCard}>
                     <img src={image} alt={name} className={styles.img} loading='lazy' />
                 </div>
@@ -34,6 +40,7 @@ const Card = ({ id, name, image, rating, genres }) => {
 
                     </div>
                 </div>
+               
                 <div className={styles.info}>
                     <NavLink to={`/detail/${id}`} className={styles.detailLink}>
                         i

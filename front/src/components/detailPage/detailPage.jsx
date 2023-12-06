@@ -11,6 +11,9 @@ const DetailPage = () => {
     const detail = useSelector((state) => state.detail);
 
     const dispatch = useDispatch();
+    // const deleteVideoGames = (id) =>{
+    //     dispatch(deleteGame(id))
+    // }
     useEffect(() => {
         dispatch(getDetailVideoGame(id))
         return () => {
@@ -77,6 +80,7 @@ const DetailPage = () => {
                     <div className={style.description}>
                         <p className={style.titleDescr} >Description: </p>
                         <p className={style.textDescr}>{detail?.description}</p>
+                        
                     </div>
                 </div>
             ) : (

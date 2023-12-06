@@ -105,7 +105,7 @@
             background-color: rgb(8, 8, 8);
             gap: 1rem;
             border-radius:0 0 2rem 2rem;
-            animation: mobileFilter .3s ease-in-out alternate ;
+            animation: mobileFilter .4s ease both ;
             .navBar{
                
                 position: relative;
@@ -150,10 +150,11 @@
     }
     @keyframes mobileFilter {
         from {
-            transform: translateY(-100px);
+            transform: translateX(120px);
         }
+        
         to {
-            transform: translateY(-0);
+            transform: translateX(0);
         }
     }
 }
