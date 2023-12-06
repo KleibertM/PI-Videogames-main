@@ -87,7 +87,7 @@ const FormPage = () => {
                     released: "",
                     rating: "",
                 }))
-
+                
                 .catch((error) => alert("Error creating video game"));
         } else {
             alert('There are errors in the form. Cannot submit')
